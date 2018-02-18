@@ -1,6 +1,7 @@
 # QuickOpenWidget
 
-Download the latest installer [here](https://github.com/lukas-tr/quick-open-widget/releases). Updates will be installed automatically.
+Download the latest installer [here](https://github.com/lukas-tr/quick-open-widget/releases/latest). If the installer can't download required files, download the 7z archive manually and place it in the same directory as the installer.
+Updates will be installed automatically.
 
 ## Features and planned features
 
