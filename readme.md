@@ -2,6 +2,7 @@
 
 ## Features and planned features
 
+* [x] Use the keyboard or mouse to execute commands (except textBox)
 * [x] Automatic updates
 * [x] <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>Space</kbd> or taskbar icon to toggle
 * [x] Customizeable theme
@@ -9,14 +10,19 @@
 * [x] Multi-monitor support (always shows up on the monitor where the cursor is)
 * [x] Full screen mode
 * [x] Autostart
-* [ ] Importing custom commands from any folder on the system (coming soon)
+* [ ] Importing custom commands from any folder on the system
 * [ ] A command to add custom URL commands while running
-* [ ] Shortcut commands
+* [ ] More commands
   * [ ] Control palen
   * [ ] Computer
   * [ ] Hide/Show all windows
   * [ ] Installed programs
   * [ ] Installed games (maybe read /path/to/Steam/steamapps and find appmanifest\_&lt;id&gt;.act)
+
+## Known bugs
+
+* Scrollbar doesn't change color when changing theme type color
+* Automatic updates start downloading without user consent (user has to accept installation)
 
 ## Screenshots
 
@@ -69,7 +75,7 @@ url,Open Google,https://google.com,Opens the Google website
 
 ### Action Example
 
-Have a look at the example directory for more.
+Have a look at the [example](./blob/master/LICENSE) directory for more.
 
 ```javascript
 const { registerCommand } = require("CommandManager");
@@ -81,19 +87,27 @@ registerCommand({
     callbacks.hide();
   }
 });
+registerCommand({
+  name: "Confirm me",
+  description: "Displays a confirm box",
+  action: async callbacks => {
+    await callbacks.alertBox(
+      "You answered " + (await callbacks.confirmBox("Are you sure?"))
+    );
+    callbacks.hide();
+  }
+});
 ```
 
 The callbacks object contains following functions (ALL of these are Promises):
 
-```javascript
-{
-    hide: () => boolean, // false if in dev mode
-    error: message => true,
-    alertBox: message => true,
-    confirmBox: message => boolean,
-    textBox: message => string,
-    enumBox: (message, enumArray, arrayEntryToStringMap) => object, // array entry
-    updateDescription: text => void,
-    openURL: uri => void
-}
-```
+| Callback                                          | Resolve   | Reject   | Description                                                                                                                                               |
+| ------------------------------------------------- | --------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| hide()                                            | `boolean` | never    | Hides the window. Only returns false when in developer mode (Because window stays open)                                                                   |
+| error(message)                                    | `true`    | never    | Displays an error message                                                                                                                                 |
+| alertBox(message)                                 | `true`    | never    | Displays an alert box                                                                                                                                     |
+| confirmBox(message)                               | `boolean` | `string` | Returns a boolean when user accepts or declines. Rejects with a string containing `abort` when pressing <kbd>Esc</kbd>                                    |
+| textBox(message)                                  | `string`  | `string` | Returns a string containing the user response. Rejects with a string containing `abort` when pressing <kbd>Esc</kbd>                                      |
+| enumBox(message,enumArray,arrayEntryToStringFunc) | `object`  | `string` | Returns an array entry. The arrayEntryToStringFunc function has to return a string. Rejects with a string containing `abort` when pressing <kbd>Esc</kbd> |
+| updateDescription (newDescription)                | `null`    | never    | Updates the description (has to be string) for the command in the command list.                                                                           |
+| openURL                                           | `null`    | `string` | Opens a URL (and URI). Rejects with `not a uri` when the provided string isn't a valid URI.                                                               |

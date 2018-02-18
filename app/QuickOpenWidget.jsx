@@ -203,14 +203,14 @@ class QuickOpenWidget extends React.Component {
       return new Promise((resolve, reject) => {
         command.description = text;
         this.setState({});
-        resolve();
+        resolve(null);
       });
     },
     openURL: uri => {
       return new Promise((resolve, reject) => {
         if (!validUrl.isUri(uri)) reject("not a uri");
         opn(uri);
-        resolve();
+        resolve(null);
       });
     }
   });
