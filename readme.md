@@ -44,7 +44,7 @@ Adding custom commands is easy. They can be importet from JSON, CSV or JavaScrip
 | CSV           | ❌     | ✔               |
 | JSON          | ❌     | ✔               |
 
-#### URL Examples
+### URL Examples
 
 You can arrange the colums howevery you like. If description is not set, it shows the url.
 
@@ -101,13 +101,13 @@ registerCommand({
 
 The callbacks object contains following functions (ALL of these are Promises):
 
-| Callback                                          | Resolve   | Reject   | Description                                                                                                                                               |
-| ------------------------------------------------- | --------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| hide()                                            | `boolean` | never    | Hides the window. Only returns false when in developer mode (Because window stays open)                                                                   |
-| error(message)                                    | `true`    | never    | Displays an error message                                                                                                                                 |
-| alertBox(message)                                 | `true`    | never    | Displays an alert box                                                                                                                                     |
-| confirmBox(message)                               | `boolean` | `string` | Returns a boolean when user accepts or declines. Rejects with a string containing `abort` when pressing <kbd>Esc</kbd>                                    |
-| textBox(message)                                  | `string`  | `string` | Returns a string containing the user response. Rejects with a string containing `abort` when pressing <kbd>Esc</kbd>                                      |
-| enumBox(message,enumArray,arrayEntryToStringFunc) | `object`  | `string` | Returns an array entry. The arrayEntryToStringFunc function has to return a string. Rejects with a string containing `abort` when pressing <kbd>Esc</kbd> |
-| updateDescription (newDescription)                | `null`    | never    | Updates the description (has to be string) for the command in the command list.                                                                           |
-| openURL                                           | `null`    | `string` | Opens a URL (and URI). Rejects with `not a uri` when the provided string isn't a valid URI.                                                               |
+| Callback                                               | Resolve   | Reject   | Description                                                                                                                                               |
+| ------------------------------------------------------ | --------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `hide ()`                                              | `boolean` | never    | Hides the window. Only returns false when in developer mode (Because window stays open)                                                                   |
+| `error (message)`                                      | `true`    | never    | Displays an error message                                                                                                                                 |
+| `alertBox (message)`                                   | `true`    | never    | Displays an alert box                                                                                                                                     |
+| `confirmBox (message)`                                 | `boolean` | `string` | Returns a boolean when user accepts or declines. Rejects with a string containing `abort` when pressing <kbd>Esc</kbd>                                    |
+| `textBox (message)`                                    | `string`  | `string` | Returns a string containing the user response. Rejects with a string containing `abort` when pressing <kbd>Esc</kbd>                                      |
+| `enumBox (message, enumArray, arrayEntryToStringFunc)` | `object`  | `string` | Returns an array entry. The arrayEntryToStringFunc function has to return a string. Rejects with a string containing `abort` when pressing <kbd>Esc</kbd> |
+| `updateDescription (newDescription)`                   | `null`    | never    | Updates the description (has to be string) for the command in the command list.                                                                           |
+| `openURL`                                              | `null`    | `string` | Opens a URL (and URI). Rejects with `not a uri` when the provided string isn't a valid URI.                                                               |
