@@ -1,0 +1,5 @@
+{
+  "explorer.confirmDelete": false,
+  "workbench.iconTheme": "material-icon-theme",
+  "javascript.validate.enable": false
+}

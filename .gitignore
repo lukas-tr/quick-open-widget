@@ -1,0 +1,6 @@
+node_modules
+dist
+app/node_modules
+notes.md
+.ENV
+package.1.json

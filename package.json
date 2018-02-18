@@ -1,0 +1,89 @@
+{
+  "name": "quick-open-widget",
+  "version": "0.3.0",
+  "description": "A simple program to execute custom commands",
+  "main": "app/_main.js",
+  "author": "lukas-tr",
+  "license": "GPL-3.0",
+  "scripts": {
+    "start": "set NODE_ENV=dev&& electron .",
+    "build": "electron-builder --win --x64",
+    "flow": "flow",
+    "release": "SET LOCALAPPDATA=E:\\electron-builder-temp&& build"
+  },
+  "keywords": [
+    "widget",
+    "quick",
+    "open"
+  ],
+  "repository": "github:lukas-tr/quick-open-widget",
+  "devDependencies": {
+    "electron": "^1.8.2",
+    "electron-builder": "^20.0.4",
+    "grpc": "^1.7.1"
+  },
+  "dependencies": {
+    "animated": "^0.2.1",
+    "app-module-path": "^2.2.0",
+    "auto-launch": "^5.0.1",
+    "axios": "^0.17.1",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-react-css-modules": "^3.3.2",
+    "babel-plugin-syntax-async-functions": "^6.13.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-regenerator": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-flow": "^6.23.0",
+    "babel-preset-react": "^6.3.13",
+    "babel-register": "^6.26.0",
+    "csvtojson": "^1.1.9",
+    "devtron": "^1.4.0",
+    "electron-debug": "^1.5.0",
+    "electron-log": "^2.2.14",
+    "electron-main-notification": "^1.0.1",
+    "electron-react-devtools": "^0.5.3",
+    "electron-reload": "^1.2.2",
+    "electron-settings": "^3.1.4",
+    "electron-updater": "^2.20.1",
+    "flow-bin": "^0.65.0",
+    "is-url": "^1.2.2",
+    "js-cookie": "^2.2.0",
+    "material-ui": "^1.0.0-beta.20",
+    "material-ui-icons": "^1.0.0-beta.17",
+    "opn": "^5.2.0",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-router-dom": "^4.2.2",
+    "react-router-transition": "^1.1.2",
+    "react-transition-group": "^2.2.1",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5",
+    "roboto-fontface": "^0.9.0",
+    "scroll-into-view": "^1.9.1",
+    "scroll-into-view-if-needed": "^1.4.0",
+    "valid-url": "^1.0.9"
+  },
+  "build": {
+    "appId": "com.quickopenwidget.app",
+    "productName": "Quick Open Widget",
+    "copyright": "Copyright © 2018 lukas-tr",
+    "win": {
+      "target": "nsis-web",
+      "publish": [
+        {
+          "provider": "github"
+        }
+      ]
+    },
+    "nsisWeb": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "allowElevation": true,
+      "license": "eula.txt",
+      "perMachine": true
+    }
+  }
+}

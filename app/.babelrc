@@ -1,0 +1,11 @@
+{
+  "plugins": [
+    "syntax-async-functions",
+    "transform-regenerator",
+    "transform-class-properties",
+    "react-css-modules",
+    "transform-object-rest-spread",
+    "transform-flow-strip-types"
+  ],
+  "presets": ["flow", "env", "react"]
+}

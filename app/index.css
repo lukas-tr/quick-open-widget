@@ -1,0 +1,29 @@
+webview,
+body {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  font-family: Roboto, "Roboto", "Times New Roman";
+}
+
+::-webkit-scrollbar {
+  width: 15px;
+  height: 8px;
+  background-color: rgb(65, 65, 65);
+}
+/* 
+:hover::-webkit-scrollbar-thumb {
+  background: grey;
+} */
+
+/* ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0);
+} */
+::-webkit-scrollbar-thumb {
+  background: grey;
+}

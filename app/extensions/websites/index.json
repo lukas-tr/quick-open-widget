@@ -1,0 +1,16 @@
+{
+  "commands": [
+    {
+      "name": "Open YouTube",
+      "description": "Opens the YouTube website",
+      "type": "url",
+      "url": "https://youtube.com"
+    },
+    {
+      "name": "Open Google",
+      "description": "Opens the Google website",
+      "type": "url",
+      "url": "https://google.com"
+    }
+  ]
+}
