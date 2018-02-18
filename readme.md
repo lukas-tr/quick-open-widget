@@ -1,5 +1,7 @@
 # QuickOpenWidget
 
+Download the latest installer [here](https://github.com/lukas-tr/quick-open-widget/releases). Updates will be installed automatically.
+
 ## Features and planned features
 
 * [x] Use the keyboard or mouse to execute commands (except textBox)
