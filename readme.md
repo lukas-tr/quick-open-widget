@@ -33,7 +33,7 @@ Updates will be installed automatically.
 
 ![command](https://github.com/lukas-tr/quick-open-widget/raw/master/readme/colors.png "The color change dialog")
 
-![command](https://github.com/lukas-tr/quick-open-widget/raw/master/readme/command.png "A confirmBox dialog")
+![command](https://github.com/lukas-tr/quick-open-widget/raw/master/readme/dialogs.png "A confirmBox dialog")
 
 ## Adding custom commands
 
