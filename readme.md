@@ -78,7 +78,7 @@ url,Open Google,https://google.com,Opens the Google website
 
 ### Action Example
 
-Have a look at the [example](./blob/master/LICENSE) directory for more.
+Have a look at the [example](./app/extensions/examples/index.js) directory for more.
 
 ```javascript
 const { registerCommand } = require("CommandManager");

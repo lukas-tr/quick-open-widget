@@ -1,6 +1,6 @@
 {
   "name": "quick-open-widget",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A simple program to execute custom commands",
   "main": "app/_main.js",
   "author": "lukas-tr",
@@ -82,7 +82,7 @@
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "allowElevation": true,
-      "license": "eula.txt",
+      "license": "LICENSE",
       "perMachine": true
     }
   }
