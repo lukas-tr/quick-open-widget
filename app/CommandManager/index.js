@@ -41,6 +41,7 @@ exports.registerJSONCommand = json => {
         exports.registerCommand({
           name: json.name,
           description: json.description || "Opens " + json.url,
+          icon: json.icon || "OpenInNew",
           action: async callbacks => {
             try {
               await callbacks.openURL(json.url);

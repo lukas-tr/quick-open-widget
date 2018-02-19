@@ -6,6 +6,7 @@ import { commands, onCommandsChange } from "./CommandManager";
 import { filterList, formatQueryText } from "./functions";
 import MaterialList from "./MaterialList";
 import PromptWidget from "./PromptWidget";
+import * as icons from "material-ui-icons";
 const opn = require("opn");
 const validUrl = require("valid-url");
 const { ipcRenderer } = require("electron");
@@ -264,6 +265,12 @@ class QuickOpenWidget extends React.Component {
                 formatSecondary={command =>
                   command.description || "Executes the command"
                 }
+                hasImage
+                formatImage={command => {
+                  let Icon = icons[command.icon];
+                  if (!Icon) return false;
+                  return <Icon />;
+                }}
                 noMatchText={"No commands matching your query"}
               />
             </div>

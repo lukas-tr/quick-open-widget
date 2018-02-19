@@ -29,6 +29,7 @@ import { filterList } from "./functions";
 import scrollIntoView from "scroll-into-view";
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import Avatar from "material-ui/Avatar";
 
 const scrollIntoViewIfNeeded = require("scroll-into-view-if-needed");
 
@@ -46,6 +47,9 @@ const styles = theme => ({
   },
   listItem: {
     transitionProperty: "none"
+  },
+  avatar:{
+    backgroundColor: theme.palette.primary.light
   }
 });
 
@@ -73,6 +77,9 @@ class MaterialList extends React.Component {
               [this.props.classes.highlighted]: this.props.highlighted == index
             })}
           >
+            {this.props.hasImage&&<ListItemAvatar>
+              <Avatar className={this.props.classes.avatar}>{this.props.formatImage(item)}</Avatar>
+            </ListItemAvatar>}
             <ListItemText
               primary={this.props.formatPrimary(item)}
               secondary={this.props.formatSecondary(item)}
@@ -96,6 +103,12 @@ MaterialList.propTypes = {
   highlighted: PropTypes.number.isRequired, //for keyboard highlight
   formatPrimary: PropTypes.func.isRequired, //called with
   formatSecondary: PropTypes.func.isRequired,
-  noMatchText: PropTypes.string.isRequired
+  noMatchText: PropTypes.string.isRequired,
+  formatImage: PropTypes.func.isRequired,
+  hasImage: PropTypes.bool.isRequired
+};
+MaterialList.defaultProps = {
+  formatString: () => false,
+  hasImage: false
 };
 export default withStyles(styles)(MaterialList);

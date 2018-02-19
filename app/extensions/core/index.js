@@ -27,6 +27,7 @@ let colorOptions = {
 registerCommand({
   name: "Exit Application",
   description: "Closes this application",
+  icon:"PowerSettingsNew",
   action: async callbacks => {
     require("electron").ipcRenderer.send("exit-application");
   }
@@ -35,6 +36,7 @@ registerCommand({
 registerCommand({
   name: "Help",
   description: "Opens the help page",
+  icon: "HelpOutline",
   action: async callbacks => {
     await callbacks.openURL("https://github.com/lukas-tr/quick-open-widget");
     callbacks.hide();
@@ -44,6 +46,7 @@ registerCommand({
 registerCommand({
   name: "Toggle Dev Tools",
   description: "Toggles the integrated Developer Tools for debugging",
+  icon:"BugReport",
   action: async callbacks => {
     require("electron")
       .remote.getCurrentWindow()
@@ -54,6 +57,7 @@ registerCommand({
 registerCommand({
   name: "Toggle theme type color",
   description: "Changes the type color",
+  icon: "Style",
   action: async callbacks => {
     if (settings.get("color.type", "dark") == "dark") {
       settings.set("color.type", "light");
@@ -66,6 +70,7 @@ registerCommand({
 
 registerCommand({
   name: "Toggle autostart",
+  icon: "Autorenew",
   description:
     "Enables or disables autostart (currently " +
     (settings.get("autostart", false) ? "disabled" : "enabled") +
@@ -91,6 +96,7 @@ registerCommand({
 
 registerCommand({
   name: "Version",
+  icon: "InfoOutline",
   description: "Displays app version information",
   action: async callbacks => {
     await callbacks.alertBox(app.getName() + " v" + app.getVersion());
@@ -100,6 +106,7 @@ registerCommand({
 
 registerCommand({
   name: "Toggle fullscreen",
+  icon: "Fullscreen",
   description:
     "Enables or disables fullscreen (currently " +
     (settings.get("fullscreen", false) ? "disabled" : "enabled") +
@@ -122,6 +129,7 @@ registerCommand({
 
 registerCommand({
   name: "Change primary theme color",
+  icon: "Style",
   description:
     "Changes the primary theme (currently " +
     colorOptions[settings.get("color.primary", "blue")] +
