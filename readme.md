@@ -13,6 +13,7 @@ Updates will be installed automatically.
 * [x] Multi-monitor support (always shows up on the monitor where the cursor is)
 * [x] Full screen mode
 * [x] Autostart
+* [x] Material icons
 * [ ] Importing custom commands from any folder on the system
 * [ ] A command to add custom URL commands while running
 * [ ] More commands
