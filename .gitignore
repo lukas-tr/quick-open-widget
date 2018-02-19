@@ -4,3 +4,4 @@ app/node_modules
 notes.md
 .ENV
 package.1.json
+yarn-error.log
