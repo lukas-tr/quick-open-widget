@@ -5,6 +5,8 @@ Updates will be installed automatically.
 
 How to install additional commands: Double click any .quickopencsv or .quickopenjson and the commands will be added or updated. You can also download them directly from https://quick-open-widget.firebaseapp.com/ (click "install" with Quick Open Widget installed);
 
+To see example files, to to the /readme folder.
+
 ## Features and planned features
 
 * [x] Use the keyboard or mouse to execute commands (except textBox)
