@@ -46,8 +46,13 @@ class QuickOpenWidget extends React.Component {
   componentDidMount() {
     this.unsubscribeCommandsChange = onCommandsChange(
       (newCommand, allCommands) => {
-        this.state.inactiveCommands.push(newCommand);
-        this.filterList(false, this.state.commandText);
+        this.setState({
+          commands: [...allCommands],
+          inactiveCommands: []
+        });
+        this.filterList(true, this.state.commandText);
+        // this.state.inactiveCommands.push(newCommand); //was fine until protcols and files were supported
+        // this.filterList(false, this.state.commandText);
       }
     );
   }
@@ -120,8 +125,9 @@ class QuickOpenWidget extends React.Component {
           resolve(false);
           return;
         }
-        ipcRenderer.send("hide-window");
-        resolve(true);
+        // ipcRenderer.send("hide-window");
+        // resolve(true);
+        resolve(false); //maybe staying open is better after all (may be enabled when feature gets better)
       });
     },
     error: error => {

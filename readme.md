@@ -3,6 +3,8 @@
 Download the latest installer [here](https://github.com/lukas-tr/quick-open-widget/releases/latest). If the installer can't download required files, download the 7z archive manually and place it in the same directory as the installer.
 Updates will be installed automatically.
 
+How to install additional commands: Double click any .quickopencsv or .quickopenjson and the commands will be added or updated. You can also download them directly from https://quick-open-widget.firebaseapp.com/ (click "install" with Quick Open Widget installed);
+
 ## Features and planned features
 
 * [x] Use the keyboard or mouse to execute commands (except textBox)
@@ -40,6 +42,8 @@ Updates will be installed automatically.
 
 Adding custom commands is easy. They can be importet from JSON, CSV or JavaScript files. JSON and CSV both support basic commands, while JavaScript allows for custom logic.
 
+IMPORTANT: IDs are required (can't start with "core"), if two commands with the same ids are encountered, the older one will be deleted.
+
 ### Available Types
 
 | Import option | Action | URL             |
@@ -53,9 +57,9 @@ Adding custom commands is easy. They can be importet from JSON, CSV or JavaScrip
 You can arrange the colums howevery you like. If description is not set, it shows the url.
 
 ```csv
-type,name,url,description
-url,Open YouTube,https://youtube.com,Opens the YouTube website
-url,Open Google,https://google.com,Opens the Google website
+id,type,name,url,description
+custom.urls.open.yt,url,Open YouTube,https://youtube.com,Opens the YouTube website
+custom.urls.open.g,url,Open Google,https://google.com,Opens the Google website
 ```
 
 ```json
@@ -65,13 +69,15 @@ url,Open Google,https://google.com,Opens the Google website
       "name": "Open YouTube",
       "description": "Opens the YouTube website",
       "type": "url",
-      "url": "https://youtube.com"
+      "url": "https://youtube.com",
+      "id": "custom.urls.open.yt"
     },
     {
       "name": "Open Google",
       "description": "Opens the Google website",
       "type": "url",
-      "url": "https://google.com"
+      "url": "https://google.com",
+      "id": "custom.urls.open.g"
     }
   ]
 }

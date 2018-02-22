@@ -1,0 +1,5 @@
+id,type,name,url,description,icon
+games.steam.url.tf2,url,Open Team Fortress 2,steam://rungameid/440,,VideogameAsset
+games.steam.url.csgo,url,Open Counter-Strike: Global Offensive,steam://rungameid/730,,VideogameAsset
+games.steam.url.dota2,url,Open Dota 2,steam://rungameid/570,,VideogameAsset
+games.steam.url.pubg,url,Open PlayerUnknown's Battlegrounds,steam://rungameid/578080,,VideogameAsset

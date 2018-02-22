@@ -104,7 +104,7 @@ MaterialList.propTypes = {
   formatPrimary: PropTypes.func.isRequired, //called with
   formatSecondary: PropTypes.func.isRequired,
   noMatchText: PropTypes.string.isRequired,
-  formatImage: PropTypes.func.isRequired,
+  formatImage: PropTypes.func,
   hasImage: PropTypes.bool.isRequired
 };
 MaterialList.defaultProps = {

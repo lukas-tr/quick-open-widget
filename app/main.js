@@ -6,7 +6,8 @@ const {
   Menu,
   ipcMain,
   globalShortcut,
-  appUserModelId
+  appUserModelId,
+  protocol
 } = electron;
 const AutoLaunch = require("auto-launch");
 const path = require("path");
@@ -16,7 +17,8 @@ const settings = require("electron-settings");
 const request = require("request-promise-native");
 const { autoUpdater } = require("electron-updater");
 const notify = require("electron-main-notification");
-
+const axios = require("axios");
+const csv = require("csvtojson");
 const isDev = require("electron-is-dev");
 const log = require("electron-log");
 
@@ -31,17 +33,109 @@ let trayContextMenu: Electron.Menu;
 let mainHeight = 400;
 let mainWidth = 600;
 
-const isSecondInstance = app.makeSingleInstance(
-  (commandLine, workingDirectory) => {
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) mainWindow.restore();
-      mainWindow.focus();
-    }
+function logInDevTools(s) {
+  console.log(s);
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.executeJavaScript(
+      `console.log("${s
+        .toString()
+        .split("\\")
+        .join("\\\\")}")`
+    );
   }
-);
+}
+
+const isSecondInstance = app.makeSingleInstance((argv, workingDirectory) => {
+  log.log("Second instance detected");
+  if (mainWindow) {
+    handleFilesAndProtocols(argv);
+    if (mainWindow.isMinimized()) mainWindow.restore();
+    mainWindow.focus();
+  }
+});
 if (isSecondInstance) {
   app.quit();
 }
+
+const addCommand = (command, list) => {
+  //returns new list
+  if (!command.id) {
+    log.error("Command has no id");
+    return list;
+  }
+  if (command.id.toLowerCase().startsWith("core")) {
+    //disallow commands starting with core (to prevent overriding)
+    log.error("Command can't override core commands");
+    return list;
+  }
+  //override previous command with same id
+  list = list.filter(c => c.id != command.id);
+  log.log("Pushing command: ", command);
+  list.push(command);
+  settings.set("user.commands", list); //update it in case of a parse error later on
+  return list;
+};
+
+// // eg quickopenwidget://lukas-t.herokuapp.com -->instead file associations
+
+const handleFilesAndProtocols = async args => {
+  log.log("handling files and protocols");
+  let existingCommands = settings.get("user.commands", []);
+  try {
+    for (let arg of args) {
+      log.log("Processing arg: ", arg);
+      if (arg.toLowerCase().startsWith("quickopenwidget://")) {
+        log.log("Detected protocol");
+        let url = arg.replace(/^(quickopenwidget:\/\/)/, "");
+        try {
+          let { data } = await axios.get(url); //automatic json transform
+          try {
+            data.commands.forEach(
+              command =>
+                (existingCommands = addCommand(command, existingCommands))
+            );
+          } catch (error) {
+            log.error(error);
+            csv()
+              .fromString(data)
+              .on("json", command => {
+                existingCommands = addCommand(command, existingCommands);
+              });
+          }
+        } catch (error) {
+          log.error(error);
+        }
+      } else if (arg.toLowerCase().endsWith("quickopenjson")) {
+        log.log("Detected json");
+        var fs = require("fs");
+        var obj;
+        fs.readFile(arg, "utf8", function(err, data) {
+          if (err) {
+            log.error(err);
+            return;
+          }
+          obj = JSON.parse(data);
+          obj.commands.forEach(command => {
+            existingCommands = addCommand(command, existingCommands);
+          });
+        });
+      } else if (arg.toLowerCase().endsWith("quickopencsv")) {
+        log.log("Detected csv");
+        csv()
+          .fromFile(arg)
+          .on("json", command => {
+            existingCommands = addCommand(command, existingCommands);
+          });
+      }
+    }
+  } catch (error) {
+    log.error(error);
+  }
+  log.log(
+    "Default protocol client succeeded: " +
+      app.setAsDefaultProtocolClient("quickopenwidget")
+  );
+};
 
 const initializeTray = () => {
   trayIcon = new Tray(iconpath);
@@ -74,27 +168,6 @@ const initializeTray = () => {
 //#endregion
 
 const setSettings = () => {
-  const defaultSettings = [
-    ["theme.primary", "blue"],
-    ["theme.secondary", "green"],
-    ["theme.type", "light"],
-    ["autostart", false],
-    ["connect.autocheckin", false]
-  ];
-  const setDefaults = () =>
-    defaultSettings.forEach(element => {
-      if (!settings.has(element[0])) {
-        settings.set(element[0], element[1]);
-        console.log("set ", element[0]);
-      }
-      settings.watch(element[0], (newVal, oldVal) => {
-        console.log(element[0], ":", oldVal, "=>", newVal);
-        if (newVal == undefined) {
-          settings.set(element[0], oldVal); //todo: find bug that causes reset and remove this
-        }
-      });
-    });
-  setDefaults();
   //listen for settings changes
   settings.watch("autostart", async enable => {
     let applicationAutoLauncher = new AutoLaunch({
@@ -149,6 +222,7 @@ const showMainWindow = () => {
 const createWindow = () => {
   setSettings();
   listenForUpdate();
+  handleFilesAndProtocols(process.argv);
   mainWindow = new BrowserWindow({
     width: mainWidth,
     height: mainHeight,

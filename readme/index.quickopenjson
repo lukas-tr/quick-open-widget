@@ -1,0 +1,23 @@
+{
+    "name": "Package 002",
+    "version": "1",
+    "id": "test.custom.package.02",
+    "commands": [
+        {
+            "name": "Lukas' Portal",
+            "description": "Lukas' Portal",
+            "type": "url",
+            "url": "https://lukas-t.herokuapp.com",
+            "icon": "",
+            "id": "test.custom.package.02.portal"
+        },
+        {
+            "name": "Quick Open Widget Store",
+            "description": "Opens the store",
+            "type": "url",
+            "url": "https://google.com",
+            "icon": "ShoppingBasket",
+            "id": "test.custom.package.02.store"
+        }
+    ]
+}

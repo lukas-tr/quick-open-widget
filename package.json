@@ -11,11 +11,7 @@
     "flow": "flow",
     "release": "SET LOCALAPPDATA=E:\\electron-builder-temp&& build"
   },
-  "keywords": [
-    "widget",
-    "quick",
-    "open"
-  ],
+  "keywords": ["widget", "quick", "open"],
   "repository": "github:lukas-tr/quick-open-widget",
   "devDependencies": {
     "electron": "^1.8.2",
@@ -84,6 +80,19 @@
       "allowElevation": true,
       "license": "LICENSE",
       "perMachine": true
-    }
+    },
+    "fileAssociations": [
+      {
+        "ext": ["quickopenjson", "quickopencsv"],
+        "name": "Quick Open Widget Commands",
+        "icon": "files.ico"
+      }
+    ],
+    "protocols": [
+      {
+        "name": "Quick Open Widget Package",
+        "schemes": ["quickopenwidget"]
+      }
+    ]
   }
 }

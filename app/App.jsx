@@ -4,7 +4,8 @@ import { createMuiTheme, withStyles } from "material-ui/styles";
 import * as colors from "material-ui/colors";
 import Reboot from "material-ui/Reboot";
 import QuickOpenWidget from "./QuickOpenWidget";
-import settings from "electron-settings";
+// import settings from "electron-settings";
+const settings = require('electron').remote.require('electron-settings');
 
 const styles = theme => ({
   main: { height: "100vh", width: "100vw", position: "absolute" }

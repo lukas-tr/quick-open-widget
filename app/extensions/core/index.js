@@ -1,5 +1,6 @@
 const { registerCommand } = require("CommandManager");
-const settings = require("electron-settings");
+// const settings = require("electron-settings");
+const settings = require('electron').remote.require('electron-settings');
 const { app } = require("electron").remote;
 
 let colorOptions = {

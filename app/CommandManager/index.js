@@ -4,6 +4,7 @@ require("app-module-path").addPath(dirname(__dirname));
 const opn = require("opn");
 const csv = require("csvtojson");
 const validUrl = require("valid-url");
+const settings = require("electron").remote.require("electron-settings");
 
 const modulePaths = [dirname(__dirname) + "/extensions"];
 let commands = [];
@@ -16,6 +17,7 @@ const getDirectories = source =>
     .map(name => join(source, name))
     .filter(isDirectory);
 
+//registerCommand is used by extensions in this repository (commands from web pages shouldn't be allowed to execute arbitrary code)
 exports.registerCommand = command => {
   try {
     commands.push(command);
@@ -25,6 +27,7 @@ exports.registerCommand = command => {
   }
 };
 
+//this is safe to use for unknown sources, as only links can be passed (for now)
 exports.registerJSONCommand = json => {
   // accepts json strings and js objects
   try {
@@ -38,10 +41,15 @@ exports.registerJSONCommand = json => {
     switch (json.type.toLowerCase()) {
       case "url":
         if (!validUrl.isUri(json.url)) break;
+        if (!json.id || json.id.length == 0) {
+          console.log("not a valid id");
+          return;
+        }
         exports.registerCommand({
           name: json.name,
           description: json.description || "Opens " + json.url,
           icon: json.icon || "OpenInNew",
+          id: json.id,
           action: async callbacks => {
             try {
               await callbacks.openURL(json.url);
@@ -61,6 +69,11 @@ exports.registerJSONCommand = json => {
     console.log(error);
   }
 };
+
+for (let command of settings.get("user.commands")) {
+  console.log("registering command: ", command);
+  exports.registerJSONCommand(command);
+}
 
 //tries to load all modulePaths in following order: modulePath/modulename/index.js > modulePath/modulename/index.json > modulePath/modulename/index.csv
 modulePaths.forEach(modulePath => {
@@ -111,3 +124,9 @@ exports.onCommandsChange = callback => {
     }
   };
 };
+
+settings.watch("user.commands", newVal => {
+  for (let command of newVal) {
+    exports.registerJSONCommand(command);
+  }
+});
