@@ -5,7 +5,7 @@ import * as colors from "material-ui/colors";
 import Reboot from "material-ui/Reboot";
 import QuickOpenWidget from "./QuickOpenWidget";
 // import settings from "electron-settings";
-const settings = require('electron').remote.require('electron-settings');
+const settings = require("electron").remote.require("electron-settings");
 
 const styles = theme => ({
   main: { height: "100vh", width: "100vw", position: "absolute" }
@@ -19,7 +19,8 @@ class App extends React.Component {
         secondary: colors[settings.get("color.secondary", "orange")],
         type: settings.get("color.type", "dark")
       }
-    })
+    }),
+    showIcons: settings.get("icons.show", true)
   };
   componentDidMount() {
     this.themeObserver = settings.watch("color", newTheme => {
@@ -33,6 +34,9 @@ class App extends React.Component {
         })
       });
     });
+    this.iconObserver = settings.watch("icons.show", show => {
+      this.setState({ showIcons: show });
+    });
   }
   componentWillUnmount() {}
 
@@ -41,7 +45,10 @@ class App extends React.Component {
       <MuiThemeProvider theme={this.state.theme}>
         <div className={this.props.classes.main}>
           <Reboot />
-          <QuickOpenWidget className={this.props.classes.main} />
+          <QuickOpenWidget
+            className={this.props.classes.main}
+            showIcons={this.state.showIcons}
+          />
         </div>
       </MuiThemeProvider>
     );

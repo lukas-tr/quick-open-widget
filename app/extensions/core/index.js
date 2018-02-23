@@ -1,6 +1,6 @@
 const { registerCommand } = require("CommandManager");
 // const settings = require("electron-settings");
-const settings = require('electron').remote.require('electron-settings');
+const settings = require("electron").remote.require("electron-settings");
 const { app } = require("electron").remote;
 
 let colorOptions = {
@@ -28,7 +28,7 @@ let colorOptions = {
 registerCommand({
   name: "Exit Application",
   description: "Closes this application",
-  icon:"PowerSettingsNew",
+  icon: "PowerSettingsNew",
   action: async callbacks => {
     require("electron").ipcRenderer.send("exit-application");
   }
@@ -47,7 +47,7 @@ registerCommand({
 registerCommand({
   name: "Toggle Dev Tools",
   description: "Toggles the integrated Developer Tools for debugging",
-  icon:"BugReport",
+  icon: "BugReport",
   action: async callbacks => {
     require("electron")
       .remote.getCurrentWindow()
@@ -153,5 +153,19 @@ registerCommand({
     } finally {
       callbacks.hide();
     }
+  }
+});
+
+registerCommand({
+  name: "Toggle icons",
+  icon: "Style",
+  description: "Turns on or off icons",
+  action: async callbacks => {
+    if (settings.get("icons.show", true)) {
+      settings.set("icons.show", false);
+    } else {
+      settings.set("icons.show", true);
+    }
+    callbacks.hide();
   }
 });

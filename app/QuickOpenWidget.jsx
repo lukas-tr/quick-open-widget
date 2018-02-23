@@ -271,7 +271,7 @@ class QuickOpenWidget extends React.Component {
                 formatSecondary={command =>
                   command.description || "Executes the command"
                 }
-                hasImage
+                hasImage={this.props.showIcons}
                 formatImage={command => {
                   let Icon = icons[command.icon];
                   if (!Icon) return false;
