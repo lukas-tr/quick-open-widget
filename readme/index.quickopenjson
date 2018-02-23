@@ -2,9 +2,10 @@
     "name": "Package 002",
     "version": "1",
     "id": "test.custom.package.02",
+    "author":"lukas-tr",
     "commands": [
         {
-            "name": "Lukas' Portal",
+            "name": "Lukas' Portal from json",
             "description": "Lukas' Portal",
             "type": "url",
             "url": "https://lukas-t.herokuapp.com",
@@ -12,7 +13,7 @@
             "id": "test.custom.package.02.portal"
         },
         {
-            "name": "Quick Open Widget Store",
+            "name": "Quick Open Widget Store from json",
             "description": "Opens the store",
             "type": "url",
             "url": "https://google.com",
