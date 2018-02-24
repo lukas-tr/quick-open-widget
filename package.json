@@ -9,7 +9,13 @@
     "start": "set NODE_ENV=dev&& electron .",
     "build": "electron-builder --win --x64",
     "flow": "flow",
-    "release": "SET LOCALAPPDATA=E:\\electron-builder-temp&& build"
+    "release": "SET LOCALAPPDATA=E:\\electron-builder-temp&& build",
+    "build-ico":
+      "icon-gen --input icons/Q_2048.svg --output icons --type svg --modes ico --report",
+    "build-ico-files":
+      "icon-gen --input icons/files_2048.svg --output icons --type svg --modes ico --report",
+    "build-ico-uninstall":
+      "icon-gen --input icons/uninstall_2048.svg --output icons --type svg --modes ico --report"
   },
   "keywords": ["widget", "quick", "open"],
   "repository": "github:lukas-tr/quick-open-widget",
@@ -45,6 +51,7 @@
     "electron-settings": "^3.1.4",
     "electron-updater": "^2.20.1",
     "flow-bin": "^0.65.0",
+    "icon-gen": "^1.2.0",
     "is-url": "^1.2.2",
     "js-cookie": "^2.2.0",
     "material-ui": "^1.0.0-beta.20",
