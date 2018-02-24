@@ -29,6 +29,10 @@ To see example files, to to the /readme folder.
   * [ ] Installed programs
   * [ ] Installed games (maybe read /path/to/Steam/steamapps and find appmanifest\_&lt;id&gt;.act)
 
+## The Store
+
+The store is located [here](https://quick-open-widget.firebaseapp.com/ "Quick Open Widget Store"). If you want your package featured in the store, send me a message on GitHub.
+
 ## Known bugs
 
 * Scrollbar doesn't change color when changing theme type color
