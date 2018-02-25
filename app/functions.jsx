@@ -43,6 +43,7 @@ exports.filterList = (
       index -= 1;
     }
   }
+  exports.reorderCommands(activeCommands, query, nameExtractor);
 };
 
 exports.formatQueryText = (query, text, highlightedClassName) => {
@@ -63,4 +64,47 @@ exports.formatQueryText = (query, text, highlightedClassName) => {
     }
   }
   return output;
+};
+
+exports.reorderCommands = (activeCommands, query, nameExtractor) => {
+  query = query.toLowerCase();
+  activeCommands.sort((a, b) => {
+    let nameA = nameExtractor(a).toLowerCase();
+    let nameB = nameExtractor(b).toLowerCase();
+    if (query.length == 0) {
+      return nameA.localeCompare(nameB);
+    }
+    let longestMatchA = longestCommonSubstring(nameA, query);
+    let longestMatchB = longestCommonSubstring(nameB, query);
+    if (longestMatchA.length != longestMatchB.length)
+      return longestMatchB.length - longestMatchA.length;
+    return -nameB.indexOf(longestMatchB) + nameA.indexOf(longestMatchA);
+  });
+};
+
+const longestCommonSubstring = (strA, strB) => {
+  let comparsions = [],
+    maxSubStrLength = 0,
+    lastMaxSubStrIndex = -1;
+  for (let i = 0; i < strA.length; ++i) {
+    comparsions[i] = [];
+    for (let j = 0; j < strB.length; ++j) {
+      if (strA.charAt(i) === strB.charAt(j)) {
+        if (i > 0 && j > 0) {
+          comparsions[i][j] = comparsions[i - 1][j - 1] + 1;
+        } else {
+          comparsions[i][j] = 1;
+        }
+      } else {
+        comparsions[i][j] = 0;
+      }
+      if (comparsions[i][j] > maxSubStrLength) {
+        maxSubStrLength = comparsions[i][j];
+        lastMaxSubStrIndex = i;
+      }
+    }
+  }
+  return maxSubStrLength > 0
+    ? strA.substr(lastMaxSubStrIndex - maxSubStrLength + 1, maxSubStrLength)
+    : "";
 };

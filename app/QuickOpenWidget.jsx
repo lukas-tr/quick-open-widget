@@ -278,6 +278,7 @@ class QuickOpenWidget extends React.Component {
                   return <Icon />;
                 }}
                 noMatchText={"No commands matching your query"}
+                formatTitle={command => command.id}
               />
             </div>
           </div>

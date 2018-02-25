@@ -48,7 +48,7 @@ const styles = theme => ({
   listItem: {
     transitionProperty: "none"
   },
-  avatar:{
+  avatar: {
     backgroundColor: theme.palette.primary.light
   }
 });
@@ -64,6 +64,7 @@ class MaterialList extends React.Component {
       <List dense disablePadding>
         {this.props.items.map((item, index) => (
           <ListItem
+            title={this.props.formatTitle(item)}
             key={index}
             button
             onClick={() => this.props.onItemClick(index)}
@@ -77,9 +78,13 @@ class MaterialList extends React.Component {
               [this.props.classes.highlighted]: this.props.highlighted == index
             })}
           >
-            {this.props.hasImage&&<ListItemAvatar>
-              <Avatar className={this.props.classes.avatar}>{this.props.formatImage(item)}</Avatar>
-            </ListItemAvatar>}
+            {this.props.hasImage && (
+              <ListItemAvatar>
+                <Avatar className={this.props.classes.avatar}>
+                  {this.props.formatImage(item)}
+                </Avatar>
+              </ListItemAvatar>
+            )}
             <ListItemText
               primary={this.props.formatPrimary(item)}
               secondary={this.props.formatSecondary(item)}
@@ -105,10 +110,12 @@ MaterialList.propTypes = {
   formatSecondary: PropTypes.func.isRequired,
   noMatchText: PropTypes.string.isRequired,
   formatImage: PropTypes.func,
-  hasImage: PropTypes.bool.isRequired
+  hasImage: PropTypes.bool.isRequired,
+  formatTitle: PropTypes.func
 };
 MaterialList.defaultProps = {
   formatString: () => false,
+  formatTitle: () => undefined,
   hasImage: false
 };
 export default withStyles(styles)(MaterialList);

@@ -10,14 +10,9 @@ const modulePaths = [dirname(__dirname) + "/extensions"];
 let commands = [];
 let commandChangeHandlers = [];
 
-const isDirectory = source => lstatSync(source).isDirectory();
+import { isDirectory, getDirectories } from "./util";
 
-const getDirectories = source =>
-  readdirSync(source)
-    .map(name => join(source, name))
-    .filter(isDirectory);
-
-//registerCommand is used by extensions in this repository (commands from web pages shouldn't be allowed to execute arbitrary code)
+//registerCommand is used by extensions in the extensions folder (commands from web pages shouldn't be allowed to execute arbitrary code)
 exports.registerCommand = command => {
   try {
     commands.push(command);
@@ -25,6 +20,19 @@ exports.registerCommand = command => {
   } catch (error) {
     console.log(error);
   }
+};
+
+//only removes non core commands
+exports.removeCommand = id => {
+  let idx = commands.findIndex(
+    cmd => !cmd.id.startsWith("core.") && cmd.id == id
+  );
+  commands.splice(idx, 1);
+  commandChangeHandlers.map(handler => handler(null, commands)); //no new commands
+  settings.set(
+    "user.commands",
+    settings.get("user.commands").filter(cmd => cmd.id != id)
+  );
 };
 
 //this is safe to use for unknown sources, as only links can be passed (for now)
@@ -36,6 +44,14 @@ exports.registerJSONCommand = json => {
     }
     if (!json.name) {
       console.log("JSON command without name, aborting");
+      return;
+    }
+    if (!json.id) {
+      console.log("JSON command without id, aborting");
+      return;
+    }
+    if (json.id.startsWith("core.")) {
+      console.log("JSON command cannot be a core command, aborting");
       return;
     }
     switch (json.type.toLowerCase()) {
@@ -125,8 +141,8 @@ exports.onCommandsChange = callback => {
   };
 };
 
-settings.watch("user.commands", newVal => {
-  for (let command of newVal) {
+settings.watch("user.commands", newCommands => {
+  for (let command of newCommands) {
     exports.registerJSONCommand(command);
   }
 });
