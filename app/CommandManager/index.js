@@ -15,6 +15,10 @@ import { isDirectory, getDirectories } from "./util";
 //registerCommand is used by extensions in the extensions folder (commands from web pages shouldn't be allowed to execute arbitrary code)
 exports.registerCommand = command => {
   try {
+    let idx = commands.findIndex(cmd => cmd.id == command.id);
+    if (idx != -1) {
+      commands.splice(idx, 1);
+    }
     commands.push(command);
     commandChangeHandlers.map(handler => handler(command, commands));
   } catch (error) {
@@ -27,12 +31,16 @@ exports.removeCommand = id => {
   let idx = commands.findIndex(
     cmd => !cmd.id.startsWith("core.") && cmd.id == id
   );
-  commands.splice(idx, 1);
-  commandChangeHandlers.map(handler => handler(null, commands)); //no new commands
-  settings.set(
-    "user.commands",
-    settings.get("user.commands").filter(cmd => cmd.id != id)
-  );
+  if (idx != -1) {
+    commands.splice(idx, 1);
+    commandChangeHandlers.map(handler => handler(null, commands)); //no new commands
+    settings.set(
+      "user.commands",
+      settings.get("user.commands").filter(cmd => cmd.id != id)
+    );
+  } else {
+    console.log("command ", id, "couldn't be removed");
+  }
 };
 
 //this is safe to use for unknown sources, as only links can be passed (for now)
