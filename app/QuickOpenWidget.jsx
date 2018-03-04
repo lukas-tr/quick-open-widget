@@ -219,6 +219,12 @@ class QuickOpenWidget extends React.Component {
         opn(uri);
         resolve(null);
       });
+    },
+    copyToClipboard: text => {
+      return new Promise((resolve, reject) => {
+        const { clipboard } = require("electron");
+        clipboard.writeText(text);
+      });
     }
   });
   render() {

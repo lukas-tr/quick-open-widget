@@ -10,15 +10,15 @@
             "type": "url",
             "url": "https://lukas-t.herokuapp.com",
             "icon": "",
-            "id": "test.custom.package.02.portal"
+            "id": "test.custom.package.02.url"
         },
         {
-            "name": "Quick Open Widget Store from json",
-            "description": "Opens the store",
-            "type": "url",
-            "url": "https://google.com",
-            "icon": "ShoppingBasket",
-            "id": "test.custom.package.02.store"
+            "name": "Some Snippet",
+            "description": "Some Description",
+            "type": "snippet",
+            "text": "this will be copied to the clipboard",
+            "icon": "FormatQuote",
+            "id": "test.custom.package.02.snippet"
         }
     ]
 }

@@ -85,6 +85,27 @@ exports.registerJSONCommand = json => {
           }
         });
         break;
+      case "snippet":
+        exports.registerCommand({
+          name: json.name,
+          description: json.description || "Snippet",
+          icon: json.icon || "FormatQuote",
+          id: json.id,
+          action: async callbacks => {
+            try {
+              await callbacks.copyToClipboard(json.text);
+            } catch (error) {
+              console.log(error);
+            } finally {
+              callbacks.hide();
+            }
+          }
+        });
+        break;
+      case "folder":
+        break;
+      case "program":
+        break;
       default:
         console.error("Unrecognized command type");
         break;

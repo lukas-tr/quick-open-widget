@@ -63,7 +63,7 @@ const addCommand = (command, list) => {
     log.error("Command has no id");
     return list;
   }
-  if (command.id.toLowerCase().startsWith("core")) {
+  if (command.id.toLowerCase().startsWith("core.")) {
     //disallow commands starting with core (to prevent overriding)
     log.error("Command can't override core commands");
     return list;
@@ -75,8 +75,6 @@ const addCommand = (command, list) => {
   settings.set("user.commands", list); //update it in case of a parse error later on
   return list;
 };
-
-// // eg quickopenwidget://lukas-t.herokuapp.com -->instead file associations
 
 const handleFilesAndProtocols = async args => {
   log.log("handling files and protocols");
@@ -131,10 +129,11 @@ const handleFilesAndProtocols = async args => {
   } catch (error) {
     log.error(error);
   }
-  log.log(
-    "Default protocol client succeeded: " +
-      app.setAsDefaultProtocolClient("quickopenwidget")
-  );
+  if (!isDev)
+    log.log(
+      "Default protocol client succeeded: " +
+        app.setAsDefaultProtocolClient("quickopenwidget")
+    );
 };
 
 const initializeTray = () => {
