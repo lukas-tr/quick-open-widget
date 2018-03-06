@@ -16,14 +16,26 @@ body {
   height: 8px;
   background-color: rgb(65, 65, 65);
 }
-/* 
-:hover::-webkit-scrollbar-thumb {
-  background: grey;
-} */
+.light ::-webkit-scrollbar {
+  width: 15px;
+  height: 8px;
+  background-color: rgb(223, 223, 223);
+}
 
-/* ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0);
-} */
 ::-webkit-scrollbar-thumb {
   background: grey;
+}
+
+.light ::-webkit-scrollbar-thumb {
+  background: rgb(202, 202, 202);
+}
+
+::selection {
+  background: black;
+  color: white;
+}
+
+.light ::selection {
+  background: rgb(167, 167, 167);
+  color: white;
 }

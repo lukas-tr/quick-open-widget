@@ -43,7 +43,11 @@ class App extends React.Component {
   render() {
     return (
       <MuiThemeProvider theme={this.state.theme}>
-        <div className={this.props.classes.main}>
+        <div
+          className={
+            this.props.classes.main + " " + settings.get("color.type", "dark")
+          }
+        >
           <Reboot />
           <QuickOpenWidget
             className={this.props.classes.main}
