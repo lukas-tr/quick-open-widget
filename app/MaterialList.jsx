@@ -65,7 +65,7 @@ class MaterialList extends React.Component {
         {this.props.items.map((item, index) => (
           <ListItem
             title={this.props.formatTitle(item)}
-            key={index}
+            key={JSON.stringify(item)}
             button
             onClick={() => this.props.onItemClick(index)}
             dense

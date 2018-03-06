@@ -103,8 +103,38 @@ exports.registerJSONCommand = json => {
         });
         break;
       case "folder":
+        exports.registerCommand({
+          name: json.name,
+          description: json.description || "Opens a folder",
+          icon: json.icon || "FolderOpen",
+          id: json.id,
+          action: async callbacks => {
+            try {
+              await callbacks.openFile(json.folder);
+            } catch (error) {
+              console.log(error);
+            } finally {
+              callbacks.hide();
+            }
+          }
+        });
         break;
       case "program":
+        exports.registerCommand({
+          name: json.name,
+          description: json.description || "Opens a program",
+          icon: json.icon || "Apps",
+          id: json.id,
+          action: async callbacks => {
+            try {
+              await callbacks.launchProgram(json.program);
+            } catch (error) {
+              console.log(error);
+            } finally {
+              callbacks.hide();
+            }
+          }
+        });
         break;
       default:
         console.error("Unrecognized command type");
@@ -175,3 +205,29 @@ settings.watch("user.commands", newCommands => {
     exports.registerJSONCommand(command);
   }
 });
+
+// experimenting with adding all start menu programs as commands
+
+// const getFiles = source => readdirSync(source).map(name => join(source, name));
+
+// const addShortcuts = folder => {
+//   getFiles(folder).forEach(file => {
+//     if (isDirectory(file)) {
+//       addShortcuts(file);
+//     } else {
+//       exports.registerJSONCommand({
+//         name: require("path").basename(file),
+//         description: file,
+//         type: "program",
+//         program: file,
+//         id: `test.startmenu.program.${file}`
+//       });
+//     }
+//   });
+// };
+
+// //tries to load all modulePaths in following order: modulePath/modulename/index.js > modulePath/modulename/index.json > modulePath/modulename/index.csv
+// [
+//   `${process.env.ProgramData}/Microsoft/Windows/Start Menu/Programs`,
+//   `${process.env.AppData}/Microsoft/Windows/Start Menu/Programs`
+// ].forEach(folder => addShortcuts(folder));
