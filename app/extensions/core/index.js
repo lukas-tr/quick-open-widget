@@ -12,3 +12,4 @@ require("./core.fullscreen");
 require("./core.style.color");
 require("./core.command.delete");
 require("./core.store");
+require("./core.command.add");

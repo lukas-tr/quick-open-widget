@@ -1,6 +1,6 @@
 {
   "name": "quick-open-widget",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "A simple program to execute custom commands",
   "main": "app/_main.js",
   "author": "lukas-tr",
@@ -10,14 +10,15 @@
     "build": "electron-builder --win --x64",
     "flow": "flow",
     "release": "SET LOCALAPPDATA=E:\\electron-builder-temp&& build",
-    "build-ico":
-      "icon-gen --input icons/Q_2048.svg --output icons --type svg --modes ico --report",
-    "build-ico-files":
-      "icon-gen --input icons/files_2048.svg --output icons --type svg --modes ico --report",
-    "build-ico-uninstall":
-      "icon-gen --input icons/uninstall_2048.svg --output icons --type svg --modes ico --report"
+    "build-ico": "icon-gen --input icons/Q_2048.svg --output icons --type svg --modes ico --report",
+    "build-ico-files": "icon-gen --input icons/files_2048.svg --output icons --type svg --modes ico --report",
+    "build-ico-uninstall": "icon-gen --input icons/uninstall_2048.svg --output icons --type svg --modes ico --report"
   },
-  "keywords": ["widget", "quick", "open"],
+  "keywords": [
+    "widget",
+    "quick",
+    "open"
+  ],
   "repository": "github:lukas-tr/quick-open-widget",
   "devDependencies": {
     "electron": "^1.8.2",
@@ -56,6 +57,7 @@
     "js-cookie": "^2.2.0",
     "material-ui": "^1.0.0-beta.20",
     "material-ui-icons": "^1.0.0-beta.17",
+    "md5": "^2.2.1",
     "opn": "^5.2.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
@@ -90,7 +92,10 @@
     },
     "fileAssociations": [
       {
-        "ext": ["quickopenjson", "quickopencsv"],
+        "ext": [
+          "quickopenjson",
+          "quickopencsv"
+        ],
         "name": "Quick Open Widget Commands",
         "icon": "files.ico"
       }
@@ -98,7 +103,9 @@
     "protocols": [
       {
         "name": "Quick Open Widget Package",
-        "schemes": ["quickopenwidget"]
+        "schemes": [
+          "quickopenwidget"
+        ]
       }
     ]
   }

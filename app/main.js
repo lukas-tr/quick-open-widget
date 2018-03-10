@@ -287,6 +287,12 @@ ipcMain.on("hide-window", () => {
   mainWindow.hide();
 });
 
+ipcMain.on("add-command", (event, command) => {
+  let existingCommands = settings.get("user.commands", []);
+  log.info("adding command: ", command);
+  addCommand(command, existingCommands);
+});
+
 const listenForUpdate = () => {
   autoUpdater.logger = log;
   autoUpdater.logger.transports.file.level = "info";
