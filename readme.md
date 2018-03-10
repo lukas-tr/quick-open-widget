@@ -1,13 +1,12 @@
 # Quick Open Widget
 
-![Logo](https://github.com/lukas-tr/quick-open-widget/raw/master/readme/logo.png "Quick Open Widget Logo")
+  <img alt="Quick Open Widget Logo" width="200" height="100" align="right" src="https://cdn.rawgit.com/lukas-tr/quick-open-widget/c15f869d/readme/logo.svg" />
 
-Download the latest installer [here](https://github.com/lukas-tr/quick-open-widget/releases/latest). If the installer can't download required files, download the 7z archive manually and place it in the same directory as the installer.
-Updates will be installed automatically.
+> A simple program to execute custom commands
+
+Download the latest installer [here](https://github.com/lukas-tr/quick-open-widget/releases/latest). Updates will be installed automatically.
 
 How to install additional commands: Double click any .quickopencsv or .quickopenjson and the commands will be added or updated. You can also download them directly from https://quick-open-widget.firebaseapp.com/ (click "install" with Quick Open Widget installed);
-
-To see example files, to to the /readme folder.
 
 ## Features and planned features
 
@@ -21,13 +20,8 @@ To see example files, to to the /readme folder.
 * [x] Autostart
 * [x] Material icons
 * [ ] Importing custom commands from any folder on the system
-* [ ] A command to add custom URL commands while running
+* [ ] A command to add custom commands
 * [ ] More commands
-  * [ ] Control palen
-  * [ ] Computer
-  * [ ] Hide/Show all windows
-  * [ ] Installed programs
-  * [ ] Installed games (maybe read /path/to/Steam/steamapps and find appmanifest\_&lt;id&gt;.act)
 
 ## The Store
 
@@ -40,25 +34,33 @@ The store is located [here](https://quick-open-widget.firebaseapp.com/ "Quick Op
 
 ## Screenshots
 
-![command](https://github.com/lukas-tr/quick-open-widget/raw/master/readme/command.png "Typing in a command")
+<p align="center">
+  <img alt="Typing in a command" width="600" src="https://github.com/lukas-tr/quick-open-widget/raw/master/readme/command.png" />
+</p>
 
-![command](https://github.com/lukas-tr/quick-open-widget/raw/master/readme/colors.png "The color change dialog")
+<p align="center">
+  <img alt="A confirmBox dialog" width="600" src="https://github.com/lukas-tr/quick-open-widget/raw/master/readme/dialogs.png" />
+</p>
 
-![command](https://github.com/lukas-tr/quick-open-widget/raw/master/readme/dialogs.png "A confirmBox dialog")
+<p align="center">
+  <img alt="The color change dialog" width="600" src="https://github.com/lukas-tr/quick-open-widget/raw/master/readme/colors.png" />
+</p>
 
 ## Adding custom commands
 
-Adding custom commands is easy. They can be importet from JSON, CSV or JavaScript files. JSON and CSV both support basic commands, while JavaScript allows for custom logic.
+To see example files, to to the /readme folder.
 
-IMPORTANT: IDs are required (can't start with "core"), if two commands with the same ids are encountered, the older one will be deleted.
+Adding custom commands is easy. They can be importet from JSON or CSV (with a `.quickopenjson` or `.quickopencsv` extension). JSON and CSV both support basic commands.
+
+IMPORTANT: IDs are required (can't start with "core"), if two commands with the same ids are encountered, the old command will be overwritten.
 
 ### Available Types
 
-| Import option | Action | URL             |
-| ------------- | ------ | --------------- |
-| JavaScript    | ✔      | ✔ (via actions) |
-| CSV           | ❌     | ✔               |
-| JSON          | ❌     | ✔               |
+| Import option | Action (execute JavaScript) | URL (opens URL in browser) | Program (starts a program) | Folder (opens a folder) | Snippet (copies text to the clipboard | 
+| ------------- | ------ | --------------- | --- | --- | --- | 
+| JavaScript    | ✔      | ✔ (via actions) | ✔ (via actions) | ✔ (via actions) | ✔ (via actions) |
+| CSV           | ❌     | ✔               | ✔ | ✔ | ✔ |
+| JSON          | ❌     | ✔               | ✔ | ✔ | ✔ |
 
 ### URL Examples
 
@@ -129,3 +131,9 @@ The callbacks object contains following functions (ALL of these are Promises):
 | `enumBox (message, enumArray, arrayEntryToStringFunc)` | `object`  | `string` | Returns an array entry. The arrayEntryToStringFunc function has to return a string. Rejects with a string containing `abort` when pressing <kbd>Esc</kbd> |
 | `updateDescription (newDescription)`                   | `null`    | never    | Updates the description (has to be string) for the command in the command list.                                                                           |
 | `openURL`                                              | `null`    | `string` | Opens a URL (and URI). Rejects with `not a uri` when the provided string isn't a valid URI.                                                               |
+
+## Help
+
+###The installer can't download the archive from GitHub
+
+If the installer can't download required files, download the 7z archive manually and place it in the same directory as the installer.
