@@ -54,49 +54,100 @@ const styles = theme => ({
 });
 
 class MaterialList extends React.Component {
-  componentDidUpdate(prevProps, prevState) {
-    let domNode = ReactDOM.findDOMNode(this.highlightedElementRef);
-    if (domNode)
-      scrollIntoViewIfNeeded(domNode, { duration: 0, easing: "easeInOut" });
+  state = {
+    availableHeight: 0,
+    scrollTop: 0
+  };
+  componentDidMount() {
+    window.addEventListener("resize", this.handleWindowResize);
+    this.handleWindowResize();
   }
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.handleWindowResize);
+  }
+  handleWindowResize = event => {
+    this.setState({ availableHeight: ReactDOM.findDOMNode(this).clientHeight });
+  };
+  handleScroll = event => {
+    console.log("scrolltop: ", event.target.scrollTop);
+    this.setState({ scrollTop: event.target.scrollTop });
+  };
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.scrollTop == this.state.scrollTop) {
+      let domNode = ReactDOM.findDOMNode(this.highlightedElementRef);
+      if (domNode)
+        scrollIntoViewIfNeeded(domNode, { duration: 0, easing: "easeInOut" });
+    }
+  }
+  renderItem = (item, index) => (
+    <ListItem
+      title={this.props.formatTitle(item)}
+      key={JSON.stringify(item)}
+      button
+      onClick={() => this.props.onItemClick(index)}
+      dense
+      style={{ height: 56, overflow: "hidden", textOverflow: "ellipsis" }}
+      ref={ref => {
+        if (index == this.props.highlighted) this.highlightedElementRef = ref;
+      }}
+      className={classNames({
+        [this.props.classes.listItem]: true,
+        [this.props.classes.highlighted]: this.props.highlighted == index
+      })}
+    >
+      {this.props.hasImage && (
+        <ListItemAvatar>
+          <Avatar className={this.props.classes.avatar}>
+            {this.props.formatImage(item)}
+          </Avatar>
+        </ListItemAvatar>
+      )}
+      <ListItemText
+        primary={this.props.formatPrimary(item)}
+        secondary={this.props.formatSecondary(item)}
+      />
+    </ListItem>
+  );
   render() {
+    const rowHeight = 56;
+    const numRows = this.props.items.length;
+    const totalHeight = rowHeight * numRows;
+    const { availableHeight, scrollTop } = this.state;
+    const additional = 10; // for fast scrolling (displaying additional+viewport+additional)
+    const scrollBottom = scrollTop + availableHeight;
+    const startIndex = Math.max(
+      0,
+      Math.floor(scrollTop / rowHeight) - additional
+    );
+    const endIndex = Math.min(
+      numRows,
+      Math.ceil(scrollBottom / rowHeight) + additional
+    );
+    console.log("height: ", totalHeight);
+    const items = [];
+    for (let i = startIndex; i < endIndex; i++) {
+      items.push(this.renderItem(this.props.items[i], i));
+    }
+    // items = this.props.items.map((item, index) => this.renderItem(item, index));
     return (
-      <List dense disablePadding>
-        {this.props.items.map((item, index) => (
-          <ListItem
-            title={this.props.formatTitle(item)}
-            key={JSON.stringify(item)}
-            button
-            onClick={() => this.props.onItemClick(index)}
-            dense
-            ref={ref => {
-              if (index == this.props.highlighted)
-                this.highlightedElementRef = ref;
-            }}
-            className={classNames({
-              [this.props.classes.listItem]: true,
-              [this.props.classes.highlighted]: this.props.highlighted == index
-            })}
-          >
-            {this.props.hasImage && (
-              <ListItemAvatar>
-                <Avatar className={this.props.classes.avatar}>
-                  {this.props.formatImage(item)}
-                </Avatar>
-              </ListItemAvatar>
-            )}
-            <ListItemText
-              primary={this.props.formatPrimary(item)}
-              secondary={this.props.formatSecondary(item)}
-            />
-          </ListItem>
-        ))}
-        {this.props.items.length == 0 && (
-          <ListItem button disabled dense>
-            <ListItemText primary={this.props.noMatchText} />
-          </ListItem>
-        )}
-      </List>
+      <div
+        style={{ height: "100%", overflowY: "scroll" }}
+        onScroll={this.handleScroll}
+      >
+        <List
+          dense
+          disablePadding
+          style={{ paddingTop: startIndex * rowHeight, height: totalHeight }}
+          ref={ref => (this.listRef = ref)}
+        >
+          {items}
+          {this.props.items.length == 0 && (
+            <ListItem button disabled dense>
+              <ListItemText primary={this.props.noMatchText} />
+            </ListItem>
+          )}
+        </List>
+      </div>
     );
   }
 }

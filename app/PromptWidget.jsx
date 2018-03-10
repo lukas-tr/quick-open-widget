@@ -23,7 +23,7 @@ const styles = theme => ({
     height: "calc(100vh - 60px)",
     width: "100vw",
     position: "absolute",
-    overflowY: "scroll",
+    // overflowY: "scroll",
     bottom: 0
   }
 });
