@@ -33,6 +33,8 @@ import Avatar from "material-ui/Avatar";
 
 const scrollIntoViewIfNeeded = require("scroll-into-view-if-needed");
 
+const rowHeight = 56;
+
 // theme.palette.action.active
 // theme.palette.action.selected
 // theme.palette.action.hover
@@ -73,10 +75,28 @@ class MaterialList extends React.Component {
     this.setState({ scrollTop: event.target.scrollTop });
   };
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.scrollTop == this.state.scrollTop) {
+    if (
+      prevState.scrollTop == this.state.scrollTop ||
+      this.state.forceUpdateActive
+    ) {
       let domNode = ReactDOM.findDOMNode(this.highlightedElementRef);
-      if (domNode)
+      if (prevProps.highlighted != this.props.highlighted) {
+        if (this.props.highlighted == this.props.items.length - 1) {
+          this.setState({
+            scrollTop: this.props.items.length * rowHeight,
+            forceUpdateActive: true
+          });
+          return;
+        } else if (this.props.highlighted == 0) {
+          this.setState({ scrollTop: 0, forceUpdateActive: true });
+          return;
+        }
+      }
+      if (domNode) {
         scrollIntoViewIfNeeded(domNode, { duration: 0, easing: "easeInOut" });
+      }
+      if (this.state.forceUpdateActive)
+        this.setState({ forceUpdateActive: false });
     }
   }
   renderItem = (item, index) => (
@@ -109,7 +129,6 @@ class MaterialList extends React.Component {
     </ListItem>
   );
   render() {
-    const rowHeight = 56;
     const numRows = this.props.items.length;
     const totalHeight = rowHeight * numRows;
     const { availableHeight, scrollTop } = this.state;
@@ -123,12 +142,10 @@ class MaterialList extends React.Component {
       numRows,
       Math.ceil(scrollBottom / rowHeight) + additional
     );
-    console.log("height: ", totalHeight);
     const items = [];
     for (let i = startIndex; i < endIndex; i++) {
       items.push(this.renderItem(this.props.items[i], i));
     }
-    // items = this.props.items.map((item, index) => this.renderItem(item, index));
     return (
       <div
         style={{ height: "100%", overflowY: "scroll" }}
@@ -138,7 +155,6 @@ class MaterialList extends React.Component {
           dense
           disablePadding
           style={{ paddingTop: startIndex * rowHeight, height: totalHeight }}
-          ref={ref => (this.listRef = ref)}
         >
           {items}
           {this.props.items.length == 0 && (
