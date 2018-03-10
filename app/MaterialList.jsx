@@ -71,7 +71,6 @@ class MaterialList extends React.Component {
     this.setState({ availableHeight: ReactDOM.findDOMNode(this).clientHeight });
   };
   handleScroll = event => {
-    console.log("scrolltop: ", event.target.scrollTop);
     this.setState({ scrollTop: event.target.scrollTop });
   };
   componentDidUpdate(prevProps, prevState) {

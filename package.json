@@ -1,6 +1,6 @@
 {
   "name": "quick-open-widget",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "A simple program to execute custom commands",
   "main": "app/_main.js",
   "author": "lukas-tr",
