@@ -134,6 +134,6 @@ The callbacks object contains following functions (ALL of these are Promises):
 
 ## Help
 
-###The installer can't download the archive from GitHub
+### The installer can't download the archive from GitHub
 
 If the installer can't download required files, download the 7z archive manually and place it in the same directory as the installer.
