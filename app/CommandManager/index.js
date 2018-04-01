@@ -206,28 +206,43 @@ settings.watch("user.commands", newCommands => {
   }
 });
 
-// experimenting with adding all start menu programs as commands
+// adding all start menu programs as commands
 
-// const getFiles = source => readdirSync(source).map(name => join(source, name));
+const getFiles = source => readdirSync(source).map(name => join(source, name));
 
-// const addShortcuts = folder => {
-//   getFiles(folder).forEach(file => {
-//     if (isDirectory(file)) {
-//       addShortcuts(file);
-//     } else {
-//       exports.registerJSONCommand({
-//         name: require("path").basename(file),
-//         description: file,
-//         type: "program",
-//         program: file,
-//         id: `test.startmenu.program.${file}`
-//       });
-//     }
-//   });
-// };
+const addShortcuts = (folder, displayPath) => {
+  getFiles(folder).forEach(file => {
+    if (isDirectory(file)) {
+      addShortcuts(file, displayPath + " > " + require("path").basename(file));
+    } else {
+      if (
+        /^.*(\b(uninstall)|(help)|(desktop\.ini)|(license)|(eula)|(release\s+notes?)|(updates?)|(documentation)|(change\s*log)|(support)|(readme)|(setup)|(user\s+manual)|(configure)|(website)|(about)\b).*/gi.test(
+          file
+        )
+      ) {
+        return;
+      }
+      if (!/^.*\.(lnk|exe|url)/gi.test(file)) {
+        return;
+      }
+      const filename = require("path").basename(file);
+      let displayName = filename;
+      if (filename.lastIndexOf(".") != -1) {
+        displayName = filename.substring(0, filename.lastIndexOf("."));
+      }
+      exports.registerJSONCommand({
+        name: displayName,
+        description: displayPath,
+        type: "program",
+        program: file,
+        id: `test.startmenu.program.${file}`,
+        icon: "DeviceHub"
+      });
+    }
+  });
+};
 
-// //tries to load all modulePaths in following order: modulePath/modulename/index.js > modulePath/modulename/index.json > modulePath/modulename/index.csv
-// [
-//   `${process.env.ProgramData}/Microsoft/Windows/Start Menu/Programs`,
-//   `${process.env.AppData}/Microsoft/Windows/Start Menu/Programs`
-// ].forEach(folder => addShortcuts(folder));
+[
+  `${process.env.ProgramData}/Microsoft/Windows/Start Menu/Programs`,
+  `${process.env.AppData}/Microsoft/Windows/Start Menu/Programs`
+].forEach(folder => addShortcuts(folder, "Start Menu"));
