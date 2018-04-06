@@ -57,7 +57,7 @@ if (isSecondInstance) {
   app.quit();
 }
 
-const addCommand = (command, list) => {
+const addCommand = (command, list, allowAddingUserCommands = false) => {
   //returns new list
   if (!command.id) {
     log.error("Command has no id");
@@ -66,6 +66,14 @@ const addCommand = (command, list) => {
   if (command.id.toLowerCase().startsWith("core.")) {
     //disallow commands starting with core (to prevent overriding)
     log.error("Command can't override core commands");
+    return list;
+  }
+  if (
+    command.id.toLowerCase().startsWith("user.") &&
+    !allowAddingUserCommands
+  ) {
+    //disallow commands starting with user (to prevent overriding)
+    log.error("Command can't override user commands");
     return list;
   }
   //override previous command with same id
@@ -287,10 +295,10 @@ ipcMain.on("hide-window", () => {
   mainWindow.hide();
 });
 
-ipcMain.on("add-command", (event, command) => {
+ipcMain.on("add-command", (event, command, allowAddingUserCommands = false) => {
   let existingCommands = settings.get("user.commands", []);
   log.info("adding command: ", command);
-  addCommand(command, existingCommands);
+  addCommand(command, existingCommands, allowAddingUserCommands);
 });
 
 const listenForUpdate = () => {

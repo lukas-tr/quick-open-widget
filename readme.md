@@ -52,7 +52,7 @@ To see example files, to to the /readme folder.
 
 Adding custom commands is easy. They can be importet from JSON or CSV (with a `.quickopenjson` or `.quickopencsv` extension). JSON and CSV both support basic commands.
 
-IMPORTANT: IDs are required (can't start with "core"), if two commands with the same ids are encountered, the old command will be overwritten.
+IMPORTANT: IDs are required. If two commands with the same ids are encountered, the old command will be overwritten. Commands starting with core can't be removed or modified. Commands starting with user are specific to the user (e.g. programs in the start menu) and can't be removed.
 
 ### Available Types
 

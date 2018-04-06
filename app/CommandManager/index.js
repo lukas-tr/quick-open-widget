@@ -29,7 +29,8 @@ exports.registerCommand = command => {
 //only removes non core commands
 exports.removeCommand = id => {
   let idx = commands.findIndex(
-    cmd => !cmd.id.startsWith("core.") && cmd.id == id
+    cmd =>
+      !cmd.id.startsWith("core.") && !cmd.id.startsWith("user.") && cmd.id == id
   );
   if (idx != -1) {
     commands.splice(idx, 1);
@@ -43,8 +44,7 @@ exports.removeCommand = id => {
   }
 };
 
-//this is safe to use for unknown sources, as only links can be passed (for now)
-exports.registerJSONCommand = json => {
+exports.registerJSONCommand = (json, allowAddingUserCommands = false) => {
   // accepts json strings and js objects
   try {
     if (typeof json == "string") {
@@ -60,6 +60,10 @@ exports.registerJSONCommand = json => {
     }
     if (json.id.startsWith("core.")) {
       console.log("JSON command cannot be a core command, aborting");
+      return;
+    }
+    if (json.id.startsWith("user.") && !allowAddingUserCommands) {
+      console.log("JSON command cannot be a user command, aborting");
       return;
     }
     switch (json.type.toLowerCase()) {
@@ -230,14 +234,17 @@ const addShortcuts = (folder, displayPath) => {
       if (filename.lastIndexOf(".") != -1) {
         displayName = filename.substring(0, filename.lastIndexOf("."));
       }
-      exports.registerJSONCommand({
-        name: displayName,
-        description: displayPath,
-        type: "program",
-        program: file,
-        id: `test.startmenu.program.${file}`,
-        icon: "DeviceHub"
-      });
+      exports.registerJSONCommand(
+        {
+          name: displayName,
+          description: displayPath,
+          type: "program",
+          program: file,
+          id: `user.startmenu.program.${file}`,
+          icon: "DeviceHub"
+        },
+        true
+      );
     }
   });
 };

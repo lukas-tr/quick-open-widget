@@ -18,13 +18,20 @@ if (performanceTest) {
 }
 
 require("./core.exit");
+require("./core.autostart");
+require("./core.fullscreen");
+require("./core.store");
+
+// Command management
+require("./core.command.delete");
+require("./core.command.add");
+require("./core.command.export");
+
+// Customization
+require("./core.style.color");
+require("./core.style.type");
+
+// Information and debugging
+require("./core.version");
 require("./core.help");
 require("./core.devtools");
-require("./core.style.type");
-require("./core.autostart");
-require("./core.version");
-require("./core.fullscreen");
-require("./core.style.color");
-require("./core.command.delete");
-require("./core.store");
-require("./core.command.add");
