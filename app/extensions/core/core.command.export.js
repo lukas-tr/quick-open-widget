@@ -15,6 +15,7 @@ const LZString = require("lz-string");
 registerCommand({
   name: "Export commands",
   icon: "ImportExport",
+  type: "action",
   description: "Create a package for sharing your commands",
   id: "core.command.export",
   action: async callbacks => {

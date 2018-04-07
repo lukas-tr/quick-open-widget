@@ -5,6 +5,7 @@ const { app } = require("electron").remote;
 registerCommand({
   name: "Toggle fullscreen",
   icon: "Fullscreen",
+  type: "action",
   description:
     "Enables or disables fullscreen (currently " +
     (settings.get("fullscreen", false) ? "disabled" : "enabled") +

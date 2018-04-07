@@ -5,6 +5,7 @@ const { app } = require("electron").remote;
 registerCommand({
   name: "Delete (Remove) a command",
   icon: "RemoveCircleOutline",
+  type: "action",
   description: "Removes a command added by a package or the store",
   id: "core.command.delete",
   action: async callbacks => {

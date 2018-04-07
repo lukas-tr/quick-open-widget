@@ -56,11 +56,11 @@ IMPORTANT: IDs are required. If two commands with the same ids are encountered, 
 
 ### Available Types
 
-| Import option | Action (execute JavaScript) | URL (opens URL in browser) | Program (starts a program) | Folder (opens a folder) | Snippet (copies text to the clipboard | 
-| ------------- | ------ | --------------- | --- | --- | --- | 
-| JavaScript    | ✔      | ✔ (via actions) | ✔ (via actions) | ✔ (via actions) | ✔ (via actions) |
-| CSV           | ❌     | ✔               | ✔ | ✔ | ✔ |
-| JSON          | ❌     | ✔               | ✔ | ✔ | ✔ |
+| Import option | Action (execute JavaScript) | URL (opens URL in browser) | Program (starts a program) | Folder (opens a folder) | Snippet (copies text to the clipboard |
+| ------------- | --------------------------- | -------------------------- | -------------------------- | ----------------------- | ------------------------------------- |
+| JavaScript    | ✔                           | ✔ (via actions)            | ✔ (via actions)            | ✔ (via actions)         | ✔ (via actions)                       |
+| CSV           | ❌                          | ✔                          | ✔                          | ✔                       | ✔                                     |
+| JSON          | ❌                          | ✔                          | ✔                          | ✔                       | ✔                                     |
 
 ### URL Examples
 
@@ -101,6 +101,7 @@ Have a look at the [example](./app/extensions/examples/index.js) directory for m
 const { registerCommand } = require("CommandManager");
 registerCommand({
   name: "Say Hi",
+  type: "action",
   description: "Displays a message",
   action: async callbacks => {
     await callbacks.alertBox("Hello!");
@@ -109,6 +110,7 @@ registerCommand({
 });
 registerCommand({
   name: "Confirm me",
+  type: "action",
   description: "Displays a confirm box",
   action: async callbacks => {
     await callbacks.alertBox(

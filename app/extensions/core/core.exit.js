@@ -5,6 +5,7 @@ const { app } = require("electron").remote;
 registerCommand({
   name: "Exit Application",
   description: "Closes this application",
+  type: "action",
   icon: "PowerSettingsNew",
   id: "core.exit",
   action: async callbacks => {

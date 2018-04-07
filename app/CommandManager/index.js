@@ -10,7 +10,7 @@ const modulePaths = [dirname(__dirname) + "/extensions"];
 let commands = [];
 let commandChangeHandlers = [];
 
-import { isDirectory, getDirectories } from "./util";
+const { isDirectory, getDirectories, getFiles } = require("./util");
 
 //registerCommand is used by extensions in the extensions folder (commands from web pages shouldn't be allowed to execute arbitrary code)
 exports.registerCommand = command => {
@@ -41,6 +41,56 @@ exports.removeCommand = id => {
     );
   } else {
     console.log("command ", id, "couldn't be removed");
+  }
+};
+
+exports.executeCommand = async (command, callbacks) => {
+  switch (command.type.toLowerCase()) {
+    case "url":
+      if (!validUrl.isUri(command.url)) break;
+      try {
+        await callbacks.openURL(command.url);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        callbacks.hide();
+      }
+      break;
+    case "snippet":
+      try {
+        await callbacks.copyToClipboard(command.text);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        callbacks.hide();
+      }
+
+      break;
+    case "folder":
+      try {
+        await callbacks.openFile(command.folder);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        callbacks.hide();
+      }
+
+      break;
+    case "program":
+      try {
+        await callbacks.launchProgram(command.program);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        callbacks.hide();
+      }
+      break;
+    case "action":
+      await command.action(callbacks);
+      break;
+    default:
+      console.error("Unrecognized command type");
+      break;
   }
 };
 
@@ -78,15 +128,8 @@ exports.registerJSONCommand = (json, allowAddingUserCommands = false) => {
           description: json.description || "Opens " + json.url,
           icon: json.icon || "OpenInNew",
           id: json.id,
-          action: async callbacks => {
-            try {
-              await callbacks.openURL(json.url);
-            } catch (error) {
-              console.log(error);
-            } finally {
-              callbacks.hide();
-            }
-          }
+          type: "url",
+          url: json.url
         });
         break;
       case "snippet":
@@ -95,15 +138,8 @@ exports.registerJSONCommand = (json, allowAddingUserCommands = false) => {
           description: json.description || "Snippet",
           icon: json.icon || "FormatQuote",
           id: json.id,
-          action: async callbacks => {
-            try {
-              await callbacks.copyToClipboard(json.text);
-            } catch (error) {
-              console.log(error);
-            } finally {
-              callbacks.hide();
-            }
-          }
+          type: "snippet",
+          text: json.text
         });
         break;
       case "folder":
@@ -112,15 +148,8 @@ exports.registerJSONCommand = (json, allowAddingUserCommands = false) => {
           description: json.description || "Opens a folder",
           icon: json.icon || "FolderOpen",
           id: json.id,
-          action: async callbacks => {
-            try {
-              await callbacks.openFile(json.folder);
-            } catch (error) {
-              console.log(error);
-            } finally {
-              callbacks.hide();
-            }
-          }
+          type: "folder",
+          folder: json.folder
         });
         break;
       case "program":
@@ -129,15 +158,8 @@ exports.registerJSONCommand = (json, allowAddingUserCommands = false) => {
           description: json.description || "Opens a program",
           icon: json.icon || "Apps",
           id: json.id,
-          action: async callbacks => {
-            try {
-              await callbacks.launchProgram(json.program);
-            } catch (error) {
-              console.log(error);
-            } finally {
-              callbacks.hide();
-            }
-          }
+          type: "program",
+          program: json.program
         });
         break;
       default:
@@ -211,8 +233,6 @@ settings.watch("user.commands", newCommands => {
 });
 
 // adding all start menu programs as commands
-
-const getFiles = source => readdirSync(source).map(name => join(source, name));
 
 const addShortcuts = (folder, displayPath) => {
   getFiles(folder).forEach(file => {

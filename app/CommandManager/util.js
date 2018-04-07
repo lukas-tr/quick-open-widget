@@ -6,7 +6,9 @@ const getDirectories = source =>
   readdirSync(source)
     .map(name => join(source, name))
     .filter(isDirectory);
+const getFiles = source => readdirSync(source).map(name => join(source, name));
 module.exports = {
   isDirectory,
-  getDirectories
+  getDirectories,
+  getFiles
 };

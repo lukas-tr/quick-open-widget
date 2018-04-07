@@ -5,6 +5,7 @@ const includeExamples = false;
 if (includeExamples) {
   registerCommand({
     name: "Example: Confirm box",
+    type: "action",
     description: "Displays a confirm box",
     id: "example.confirm",
     action: async callbacks => {
@@ -17,6 +18,7 @@ if (includeExamples) {
 
   registerCommand({
     name: "Example: Text box with error",
+    type: "action",
     description: "This will throw an error",
     id: "example.error",
     action: async callbacks => {
@@ -31,6 +33,7 @@ if (includeExamples) {
   setTimeout(() => {
     registerCommand({
       name: "Example: Timeout",
+      type: "action",
       id: "example.timeout",
       description: "This was added 5 seconds after initialisation"
     });

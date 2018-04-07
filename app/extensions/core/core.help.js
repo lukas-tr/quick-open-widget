@@ -5,6 +5,7 @@ const { app } = require("electron").remote;
 registerCommand({
   name: "Help",
   description: "Opens the help page",
+  type: "action",
   icon: "HelpOutline",
   id: "core.help",
   action: async callbacks => {

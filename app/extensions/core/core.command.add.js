@@ -58,6 +58,7 @@ let commandTypes = [
 registerCommand({
   name: "Create (Add) a command",
   icon: "AddCircleOutline",
+  type: "action",
   description: "Add a new command",
   id: "core.command.add",
   action: async callbacks => {

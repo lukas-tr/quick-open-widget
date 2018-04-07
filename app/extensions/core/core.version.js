@@ -5,6 +5,7 @@ const { app } = require("electron").remote;
 registerCommand({
   name: "Version",
   icon: "InfoOutline",
+  type: "action",
   description: "Displays app version information",
   id: "core.version",
   action: async callbacks => {

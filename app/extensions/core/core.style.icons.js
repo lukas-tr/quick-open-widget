@@ -5,6 +5,7 @@ const { app } = require("electron").remote;
 registerCommand({
   name: "Toggle icons",
   icon: "Style",
+  type: "action",
   description: "Turns on or off icons",
   id: "core.style.icons",
   action: async callbacks => {

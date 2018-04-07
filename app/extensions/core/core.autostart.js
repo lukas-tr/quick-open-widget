@@ -5,6 +5,7 @@ const { app } = require("electron").remote;
 registerCommand({
   name: "Toggle autostart",
   icon: "Autorenew",
+  type: "action",
   description:
     "Enables or disables autostart (currently " +
     (settings.get("autostart", false) ? "disabled" : "enabled") +

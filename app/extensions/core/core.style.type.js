@@ -5,6 +5,7 @@ const { app } = require("electron").remote;
 registerCommand({
   name: "Toggle theme type color",
   description: "Changes the type color",
+  type: "action",
   icon: "Style",
   id: "core.style.type",
   action: async callbacks => {

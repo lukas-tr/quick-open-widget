@@ -5,6 +5,7 @@ const { app } = require("electron").remote;
 registerCommand({
   name: "Toggle Dev Tools",
   description: "Toggles the integrated Developer Tools for debugging",
+  type: "action",
   icon: "BugReport",
   id: "core.devtools",
   action: async callbacks => {

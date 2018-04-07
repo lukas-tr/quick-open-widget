@@ -27,6 +27,7 @@ let colorOptions = {
 registerCommand({
   name: "Change primary theme color",
   icon: "Style",
+  type: "action",
   description:
     "Changes the primary theme (currently " +
     colorOptions[settings.get("color.primary", "blue")] +

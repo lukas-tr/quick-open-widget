@@ -2,11 +2,12 @@ import React from "react";
 import { withStyles } from "material-ui/styles";
 import Reboot from "material-ui/Reboot";
 import TextField from "material-ui/TextField";
-import { commands, onCommandsChange } from "./CommandManager";
+import { commands, onCommandsChange, executeCommand } from "./CommandManager";
 import { filterList, formatQueryText } from "./functions";
 import MaterialList from "./MaterialList";
 import PromptWidget from "./PromptWidget";
 import * as icons from "material-ui-icons";
+import { FormControl, InputLabel, Input, InputAdornment } from "material-ui";
 const opn = require("opn");
 const validUrl = require("valid-url");
 const { ipcRenderer } = require("electron");
@@ -110,7 +111,7 @@ class QuickOpenWidget extends React.Component {
   };
   executeCommand = async command => {
     try {
-      await command.action(this.callbacks(command));
+      await executeCommand(command, this.callbacks(command));
     } catch (error) {
       console.log("Error in command: ", error);
       this.callbacks(command).error(error);
@@ -264,15 +265,23 @@ class QuickOpenWidget extends React.Component {
       default:
         return (
           <div>
-            <TextField
-              onBlur={event => event.target.focus()} //keep focus
-              onKeyDown={this.onKeyDown}
-              autoFocus
-              value={this.state.commandText}
-              onChange={this.handleChange}
-              margin="normal"
-              className={this.props.classes.textField}
-            />
+            <FormControl className={this.props.classes.textField}>
+              <InputLabel> </InputLabel>
+              <Input
+                onChange={this.handleChange}
+                value={this.state.commandText}
+                /* margin="normal" */
+                /* className={this.props.classes.textField} */
+                autoFocus
+                onKeyDown={this.onKeyDown}
+                onBlur={event => event.target.focus()} //keep focus
+                endAdornment={
+                  <InputAdornment position="end">
+                    {this.state.commands.length}
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
             <div className={this.props.classes.list}>
               <MaterialList
                 items={this.state.commands}

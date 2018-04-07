@@ -10,6 +10,7 @@ if (performanceTest) {
     i++;
     registerCommand({
       name: "Performance test " + i,
+      type: "action",
       icon: "InfoOutline",
       id: "custom.asldfkjslakfj." + i,
       action: async callbacks => {}
